@@ -1,0 +1,147 @@
+<!Doctype html>
+<html>
+<head>
+  <!-- Primary Color #3784cc -->
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>MSP-Typescript</title>
+
+  <!-- Javascript -->
+  <script src="/lib/jQuery/jquery-3.2.1.js"></script>
+  <script src="/lib/Semantic/semantic.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="/lib/Semantic/semantic.css">
+  <link rel="stylesheet" type="text/css" href="/css/animate.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBZGBrTHYn1YfCbJp5Qc-Q0FcCdqU5qguA",
+      authDomain: "msp-ts.firebaseapp.com",
+      databaseURL: "https://msp-ts.firebaseio.com",
+      projectId: "msp-ts",
+      storageBucket: "msp-ts.appspot.com",
+      messagingSenderId: "999174857938"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <script>
+    function writeNewPost(){
+      var newPostKey = firebase.database().ref().child('posts').push().key;
+      var postData = {
+        "phone": "010-0000-0000",
+        "name": "나윤환"
+      }
+      var updates = {};
+      updates['/apply/' + newPostKey] = postData;
+      // updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+      return firebase.database().ref().update(updates);
+    }
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      // fix menu when passed
+      $('.masthead')
+        .visibility({
+          once: false,
+          onBottomPassed: function() {
+            $('.fixed.menu').transition('fade in');
+          },
+          onBottomPassedReverse: function() {
+            $('.fixed.menu').transition('fade out');
+          }
+        });
+
+
+
+
+      // create sidebar and attach to menu open
+      $('.ui.sidebar').sidebar('attach events', '.toc.item');
+    });
+  </script>
+</head>
+<body>
+
+  <!-- Following Menu -->
+  <div class="ui large top fixed hidden menu">
+    <div class="ui container">
+      <a class="item" href="/">소개</a>
+      <a class="item active apply" href="/apply.html">신청</a>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <div class="ui vertical inverted sidebar menu">
+    <a class="item" href="/">소개</a>
+    <a class="item active apply" href="/apply.html">신청</a>
+  </div>
+
+
+  <!-- Page Contents -->
+  <div class="pusher">
+    <div class="ui inverted vertical masthead center aligned segment" style="background:#3784cc !important">
+
+      <div class="ui container" >
+        <div class="ui large secondary inverted pointing menu" style="border-color: transparent;">
+          <a class="toc item">
+            <i class="sidebar icon"></i>
+          </a>
+          <a class="item" href="/">소개</a>
+          <a class="item active apply" href="/apply.html">신청</a>
+        </div>
+      </div>
+
+      <div class="ui text container" >
+        <h1 class="ui inverted header">
+          Typescript with MSP
+        </h1>
+        <h2>Microsoft Student Partners와 함께하는 Typescript</h2>
+        <br />
+        <br />
+      </div>
+
+    </div>
+
+
+    <div class="ui vertical stripe segment">
+      <div class="ui text container">
+        <h1 class="ui aligned center header">
+          신청이 완료되었습니다.
+        </h1>
+        <br /><br /><br /><br />
+        <a class="ui huge basic fluid button" href="/">홈으로</a>
+
+
+      </div>
+    </div>
+
+
+    <div class="ui inverted vertical footer segment">
+      <div class="ui container">
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="three wide column">
+            <h4 class="ui inverted header">Menu</h4>
+            <div class="ui inverted horizontal ink list">
+              <a href="#" class="item">소개</a>
+              <a href="#" class="item">신청</a>
+            </div>
+          </div>
+          <div class="ten wide column">
+            <h4 class="ui inverted header">Infomation</h4>
+            <p>본 행사는 Microsoft에서 운영하는 Microsoft Student Partners 대학생 단체에서 진행하는 행사로 Microsoft 본사에서 주최하는 공식적인 행사는 아닙니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

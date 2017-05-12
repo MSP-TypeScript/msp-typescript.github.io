@@ -1,0 +1,187 @@
+<!Doctype html>
+<html>
+<head>
+  <!-- Primary Color #3784cc -->
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>MSP-Typescript</title>
+
+  <!-- Javascript -->
+  <script src="/lib/jQuery/jquery-3.2.1.js"></script>
+  <script src="/lib/Semantic/semantic.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" type="text/css" href="/lib/Semantic/semantic.css">
+  <link rel="stylesheet" type="text/css" href="/css/animate.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+  <style>
+    .segment p {
+      font-size: 1em !important;
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBZGBrTHYn1YfCbJp5Qc-Q0FcCdqU5qguA",
+      authDomain: "msp-ts.firebaseapp.com",
+      databaseURL: "https://msp-ts.firebaseio.com",
+      projectId: "msp-ts",
+      storageBucket: "msp-ts.appspot.com",
+      messagingSenderId: "999174857938"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <script>
+    function checkApply(ref){
+
+      ref.once('value', function(snapshot) {
+        var snapVal = snapshot.val();
+        var len = Object.keys(snapVal).length;
+        var mCount = 0;
+        var nCount = 0;
+        console.log(snapVal);
+        console.log(snapVal.length)
+        $('#allCount').text("참가자: " +len + " 명");
+
+        for(var key in snapVal){
+          if (snapVal.hasOwnProperty(key)) {
+              console.log("key/value", key, snapVal[key]);
+              var segment = $('<div/>').addClass('ui raised segment');
+
+              var name = $('<h4/>').addClass('ui header').text(snapVal[key]['name']);
+              var email = $('<p/>').text(snapVal[key]['email']);
+              var phone = $('<p/>').text(snapVal[key]['phone']);
+              var age = $('<p/>').text(snapVal[key]['age']);
+              var org = $('<p/>').text(snapVal[key]['org']);
+              var major;
+              if(snapVal[key]['major'] == "true"){
+                major = $('<p/>').text("전공자");
+                mCount++;
+              }
+              else{
+                nCount++;
+                major = $('<p/>').text("비전공자");
+              }
+              segment.append(name).append(email).append(phone).append(age).append(org).append(major);
+              $('#mainContainer').append(segment);
+          }
+        }
+        $('#mCount').text("전공자: " + mCount + " 명");
+        $('#nCount').text("비전공자: " + nCount + " 명");
+        // $('#allCount').text(snapshot.val().length);
+
+        // snapshot.forEach(function(childSnapshot) {
+        //   var childKey = childSnapshot.key();
+        //   var childData = childSnapshot.val();
+        //   console.log(childKey, childData);
+        // });
+      });
+    }
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      var ref = firebase.database().ref().child('apply');
+      checkApply(ref);
+
+      // fix menu when passed
+      $('.masthead')
+        .visibility({
+          once: false,
+          onBottomPassed: function() {
+            $('.fixed.menu').transition('fade in');
+          },
+          onBottomPassedReverse: function() {
+            $('.fixed.menu').transition('fade out');
+          }
+        });
+
+
+
+
+      // create sidebar and attach to menu open
+      $('.ui.sidebar').sidebar('attach events', '.toc.item');
+    });
+  </script>
+</head>
+<body>
+
+  <!-- Following Menu -->
+  <div class="ui large top fixed hidden menu">
+    <div class="ui container">
+      <a class="active item" href="/">소개</a>
+      <a class="item apply" href="/apply.html">신청</a>
+    </div>
+  </div>
+
+  <!-- Sidebar Menu -->
+  <div class="ui vertical inverted sidebar menu">
+    <a class="active item" href="/">소개</a>
+    <a class="item apply" href="/apply.html">신청</a>
+  </div>
+
+
+  <!-- Page Contents -->
+  <div class="pusher">
+    <div class="ui inverted vertical masthead center aligned segment" style="background:#3784cc !important">
+
+      <div class="ui container" >
+        <div class="ui large secondary inverted pointing menu" style="border-color: transparent;">
+          <a class="toc item">
+            <i class="sidebar icon"></i>
+          </a>
+          <a class="active item" href="/">소개</a>
+          <a class="item apply" href="/apply.html">신청</a>
+        </div>
+      </div>
+
+      <div class="ui text container" >
+        <h1 class="ui inverted header">
+          Typescript with MSP
+        </h1>
+        <h2>Microsoft Student Partners와 함께하는 Typescript</h2>
+        <br />
+        <br />
+        <a class="ui huge basic inverted button" href="/apply.html">신청하기 <i class="right arrow icon"></i></a>
+      </div>
+
+    </div>
+
+
+    <div class="ui vertical stripe segment">
+      <div class="ui text container" id="mainContainer">
+        <h1 class="ui header" id="allCount"></h1>
+        <h5 class="ui header" id="mCount"></h5>
+        <h5 class="ui header" id="nCount"></h5>
+
+      </div>
+    </div>
+
+
+    <div class="ui inverted vertical footer segment">
+      <div class="ui container">
+        <div class="ui stackable inverted divided equal height stackable grid">
+          <div class="three wide column">
+            <h4 class="ui inverted header">Menu</h4>
+            <div class="ui inverted horizontal ink list">
+              <a href="#" class="item">소개</a>
+              <a href="#" class="item">신청</a>
+            </div>
+          </div>
+          <div class="ten wide column">
+            <h4 class="ui inverted header">Infomation</h4>
+            <p>본 행사는 Microsoft에서 운영하는 Microsoft Student Partners 대학생 단체에서 진행하는 행사로 Microsoft 본사에서 주최하는 공식적인 행사는 아닙니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -17,6 +17,35 @@
   <link rel="stylesheet" type="text/css" href="/css/animate.css">
   <link rel="stylesheet" type="text/css" href="/css/style.css">
 
+  <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyBZGBrTHYn1YfCbJp5Qc-Q0FcCdqU5qguA",
+      authDomain: "msp-ts.firebaseapp.com",
+      databaseURL: "https://msp-ts.firebaseio.com",
+      projectId: "msp-ts",
+      storageBucket: "msp-ts.appspot.com",
+      messagingSenderId: "999174857938"
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <script>
+    function writeNewPost(){
+      var newPostKey = firebase.database().ref().child('posts').push().key;
+      var postData = {
+        "phone": "010-0000-0000",
+        "name": "나윤환"
+      }
+      var updates = {};
+      updates['/apply/' + newPostKey] = postData;
+      // updates['/user-posts/' + uid + '/' + newPostKey] = postData;
+      return firebase.database().ref().update(updates);
+    }
+  </script>
+
   <script>
     $(document).ready(function() {
       // fix menu when passed
@@ -29,8 +58,10 @@
           onBottomPassedReverse: function() {
             $('.fixed.menu').transition('fade out');
           }
-        })
-      ;
+        });
+
+
+
 
       // create sidebar and attach to menu open
       $('.ui.sidebar').sidebar('attach events', '.toc.item');
@@ -42,15 +73,15 @@
   <!-- Following Menu -->
   <div class="ui large top fixed hidden menu">
     <div class="ui container">
-      <a class="active item">소개</a>
-      <a class="item">신청</a>
+      <a class="active item" href="/">소개</a>
+      <a class="item apply" href="/apply.html">신청</a>
     </div>
   </div>
 
   <!-- Sidebar Menu -->
   <div class="ui vertical inverted sidebar menu">
-    <a class="active item">소개</a>
-    <a class="item">신청</a>
+    <a class="active item" href="/">소개</a>
+    <a class="item apply" href="/apply.html">신청</a>
   </div>
 
 
@@ -63,8 +94,8 @@
           <a class="toc item">
             <i class="sidebar icon"></i>
           </a>
-          <a class="active item">소개</a>
-          <a class="item">신청</a>
+          <a class="active item" href="/">소개</a>
+          <a class="item apply" href="/apply.html">신청</a>
         </div>
       </div>
 
@@ -75,7 +106,7 @@
         <h2>Microsoft Student Partners와 함께하는 Typescript</h2>
         <br />
         <br />
-        <div class="ui huge basic inverted button">신청하기 <i class="right arrow icon"></i></div>
+        <a class="ui huge basic inverted button" href="/apply.html">신청하기 <i class="right arrow icon"></i></a>
       </div>
 
     </div>
@@ -215,9 +246,9 @@
               <a href="#" class="item">신청</a>
             </div>
           </div>
-          <div class="seven wide column">
+          <div class="ten wide column">
             <h4 class="ui inverted header">Infomation</h4>
-            <p>본 행사는 Microsoft Student Partners에서 진행하는 행사로 Microsoft 본사에서 주최하는 공식행사는 아닙니다.</p>
+            <p>본 행사는 Microsoft에서 운영하는 Microsoft Student Partners 대학생 단체에서 진행하는 행사로 Microsoft 본사에서 주최하는 공식적인 행사는 아닙니다.</p>
           </div>
         </div>
       </div>
