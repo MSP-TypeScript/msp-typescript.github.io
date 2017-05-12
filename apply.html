@@ -11,6 +11,7 @@
   <!-- Javascript -->
   <script src="/lib/jQuery/jquery-3.2.1.js"></script>
   <script src="/lib/Semantic/semantic.js"></script>
+  <script src="/lib/async/async.js"></script>
 
   <!-- CSS -->
   <link rel="stylesheet" type="text/css" href="/lib/Semantic/semantic.css">
@@ -59,17 +60,7 @@
           $('.fixed.menu').transition('fade out');
         }
       });
-      // $('.submit').click(function(){
-      //   var id = $("#input_id").val();
-      //   var email = $("#input_email").val();
-      //   var tel = $("#input_tel").val();
-      //   var age = $("#age").val();
-      //   var isMajor = $("#isMajor").attr("checked");
-      //
-      //
-      //   var data = {id, email, tel, age, isMajor};
-      //   console.log(data);
-      // });
+
       $('.ui.dropdown').dropdown();
       $('.ui.checkbox').checkbox();
       // create sidebar and attach to menu open
@@ -135,7 +126,6 @@
         },
         onSuccess: function(event){
           event.preventDefault();
-          alert('correct!');
           var name = $("input[name=name]").val()
           var email = $("input[name=email]").val()
           var phone = $("input[name=phone]").val()
@@ -144,7 +134,11 @@
           var org = $("input[name=organization]").val()
           var data = {name, email, phone, age, major, org};
           console.log(data);
-          writeNewApply(data);
+          writeNewApply(data)
+          $('.apply_modal').modal('show');
+          // async(writeNewApply(data), function(){
+          //   location.href="/done.html";
+          // });
           // location.href="/done.html";
         },
       });
@@ -155,6 +149,9 @@
 
   <div class="ui basic modal apply_modal">
     <h1 class="ui center aligned header">신청이 완료되었습니다.</h1>
+    <br />
+    <br />
+    <a class="ui inverted fluid button" href="/">홈으로</a>
   </div>
 
   <!-- Following Menu -->
